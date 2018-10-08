@@ -45,7 +45,7 @@ const ToolbarButtons = (props) => {
         )
       }
       <Grid item>
-        <Tooltip title={<FormattedMessage id="buttons.table.columns" />}>
+        <Tooltip title={<FormattedMessage id="buttons.columns" />}>
           <Button size="small" onClick={handleColumnVisibility} color="primary">
             <FormattedMessage id="buttons.columns" />
           </Button>

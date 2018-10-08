@@ -2,19 +2,19 @@ import { addDecorator, configure } from "@storybook/react";
 import { setIntlConfig, withIntl } from "storybook-addon-intl";
 import { addLocaleData } from "react-intl";
 import enLocaleData from "react-intl/locale-data/en";
-import deLocaleData from "react-intl/locale-data/de";
+import plLocaleData from "react-intl/locale-data/pl";
 
 addLocaleData(enLocaleData);
-addLocaleData(deLocaleData);
+addLocaleData(plLocaleData);
 const messages = {
-  en: { "buttons.columns": "Click me!" },
-  de: { "buttons.columns": "Klick mich!" }
+  en: { "buttons.columns": "Columns" },
+  pl: { "buttons.columns": "Kolumny" }
 };
 
 const getMessages = locale => messages[locale];
 
 setIntlConfig({
-  locales: ["en", "de"],
+  locales: ["en", "pl"],
   defaultLocale: "en",
   getMessages
 });
