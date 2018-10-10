@@ -94,10 +94,10 @@ class DataTableToolbar extends React.Component {
   };
 
   callFilterHandler = query => {
-    const { onFilter } = this.props;
+    const { onFilter, filterType } = this.props;
     const { filters } = this.state;
     this.setState({ filtersForChips: filters });
-    onFilter(query);
+    filterType === "query" ? onFilter(query) : onFilter(filters);
   };
 
   callFilterHandlerNoDebounce = debounce(query => {

@@ -26,8 +26,6 @@ class RenderFilterChips extends React.Component {
   render() {
     const { filters, classes } = this.props;
     const chips = filters.map((filter, index) => {
-      console.log(Object.keys(filter));
-      // TODO it should be and object rather then array
       const key = Object.keys(filter)[0];
       const label = (
         <div>

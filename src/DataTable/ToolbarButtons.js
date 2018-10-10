@@ -36,21 +36,25 @@ const ToolbarButtons = props => {
       {onFilter && (
         <Grid item>
           <Tooltip title={<FormattedMessage id="buttons.filter" />}>
-            <Button
+            <IconButton
               size="small"
               onClick={handleFilterVisibility}
               color="primary"
             >
-              <FormattedMessage id="buttons.filter" />
-            </Button>
+              <FilterIcon />
+            </IconButton>
           </Tooltip>
         </Grid>
       )}
       <Grid item>
         <Tooltip title={<FormattedMessage id="buttons.columns" />}>
-          <Button size="small" onClick={handleColumnVisibility} color="primary">
-            <FormattedMessage id="buttons.columns" />
-          </Button>
+          <IconButton
+            size="small"
+            onClick={handleColumnVisibility}
+            color="primary"
+          >
+            <ViewColumn />
+          </IconButton>
         </Tooltip>
       </Grid>
       {extraButtons &&

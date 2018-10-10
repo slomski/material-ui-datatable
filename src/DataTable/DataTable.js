@@ -37,7 +37,9 @@ class DataTable extends React.Component {
     this.state = {
       selected: options.selectedRowsId || [],
       showSearchRow: true,
-      columns
+      columns,
+      filteredData: [],
+      filters: []
     };
   }
 
@@ -97,7 +99,25 @@ class DataTable extends React.Component {
   };
 
   handleLocalFiltering = filters => {
-    console.log(filters);
+    if (!filters) {
+      this.setState({ filteredData: [], filters });
+      return;
+    }
+    const { data } = this.props;
+    const filtersObject = {};
+    filters.forEach(filter => {
+      const key = Object.keys(filter)[0];
+      filtersObject[key] = filter[key];
+    });
+    const filteredData = data.filter(item => {
+      for (let key in filtersObject) {
+        const haystack = ("" + item[key]).toLowerCase();
+        const needle = "" + filtersObject[key].toLowerCase();
+        if (item[key] !== undefined && haystack.includes(needle)) return true;
+      }
+      return false;
+    });
+    this.setState({ filteredData, filters });
   };
 
   isSelected = id => {
@@ -123,11 +143,13 @@ class DataTable extends React.Component {
       showToolbar = true,
       showCheckbox = false
     } = options;
-    const { selected, columns } = this.state;
+    const { selected, columns, filters, filteredData } = this.state;
     // const emptyRows = page.size - Math.min(page.size, data.length);
 
     // console.log(this.state);
     // console.log(this.props);
+
+    const dataToShow = filters.length > 1 ? filteredData : data;
 
     return (
       <Paper elevation={elevation}>
@@ -171,7 +193,7 @@ class DataTable extends React.Component {
                 showCheckbox={showCheckbox}
               />
               <TableBody>
-                {data.map(row => {
+                {dataToShow.map(row => {
                   const isSelected = this.isSelected(row.id);
                   return (
                     <TableRow
