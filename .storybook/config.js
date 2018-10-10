@@ -7,8 +7,14 @@ import plLocaleData from "react-intl/locale-data/pl";
 addLocaleData(enLocaleData);
 addLocaleData(plLocaleData);
 const messages = {
-  en: { "buttons.columns": "Columns" },
-  pl: { "buttons.columns": "Kolumny" }
+  en: {
+    "buttons.columns": "Columns",
+    "buttons.filter": "Filter"
+  },
+  pl: {
+    "buttons.columns": "Kolumny",
+    "buttons.filter": "Filtr"
+  }
 };
 
 const getMessages = locale => messages[locale];

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import orderBy from "lodash-es/orderBy";
 import Datatable from "../../src/DataTable";
 import columns from "../columns";
@@ -33,14 +34,20 @@ class SimpleTable extends React.Component {
     });
   };
 
+  handleFiltering = filter => {
+    console.log(filter);
+  };
+
   render() {
     const { sort, page, data } = this.state;
     const { showToolbar, elevation } = this.props;
     const options = {
       sort,
-      onHandleSortChange: this.handleSortChange,
-      onHandleChangePage: this.handlePageChange,
+      onSortChange: this.handleSortChange,
+      onChangePage: this.handlePageChange,
       onChangeRowsPerPage: this.handleRowsPerPageChange,
+      onFilter: this.handleFiltering,
+      filterType: "local",
       showToolbar,
       elevation
     };
@@ -59,5 +66,15 @@ class SimpleTable extends React.Component {
     );
   }
 }
+
+SimpleTable.defaultProps = {
+  showToolbar: true,
+  elevation: 2
+};
+
+SimpleTable.propTypes = {
+  showToolbar: PropTypes.bool,
+  elevation: PropTypes.number
+};
 
 export default SimpleTable;

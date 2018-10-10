@@ -1,38 +1,38 @@
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { FormattedMessage } from 'react-intl';
-import debounce from 'lodash-es/debounce';
-import Grid from '@material-ui/core/Grid';
-import SearchBar from './SearchBar';
-import ColumnChooser from './ColumnChooser';
-import FilterChooser from './FilterChooser';
-import ToolbarButtons from './ToolbarButtons';
-import RenderFilterChips from './RenderFilterChips';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { FormattedMessage } from "react-intl";
+import debounce from "lodash-es/debounce";
+import Grid from "@material-ui/core/Grid";
+import SearchBar from "./SearchBar";
+import ColumnChooser from "./ColumnChooser";
+import FilterChooser from "./FilterChooser";
+import ToolbarButtons from "./ToolbarButtons";
+import RenderFilterChips from "./RenderFilterChips";
 
 const toolbarStyles = theme => ({
   root: {
-    padding: 20,
+    padding: 20
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
-        color: theme.palette.grey[200],
-        backgroundColor: theme.palette.secondary.light,
-      }
+          color: theme.palette.grey[200],
+          backgroundColor: theme.palette.secondary.light
+        }
       : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark
+        },
   deleteButtonColor: {
-    color: theme.palette.grey[200],
-  },
+    color: theme.palette.grey[200]
+  }
 });
 
 class DataTableToolbar extends React.Component {
@@ -40,16 +40,16 @@ class DataTableToolbar extends React.Component {
     showSearchField: false,
     anchorEl: null,
     filters: [],
-    filtersForChips: [],
+    filtersForChips: []
   };
   handleSearchClick = () => {
     this.setState({
-      showSearchField: true,
+      showSearchField: true
     });
   };
   hideSearchBar = () => {
     this.setState({
-      showSearchField: false,
+      showSearchField: false
     });
   };
   handleColumnVisibility = event => {
@@ -64,19 +64,27 @@ class DataTableToolbar extends React.Component {
   };
 
   clearFilters = () => {
-    this.setState({
-      filters: [],
-      filtersForChips: [],
-    }, this.props.onFilter(''));
+    const { onFilter } = this.props;
+    this.setState(
+      {
+        filters: [],
+        filtersForChips: []
+      },
+      onFilter("")
+    );
   };
 
   handleFilterType = (filter, del = false) => {
+    const { filters } = this.state;
     const { value, name, labelForField, labelForValue } = filter;
-    const newFilters = [...this.state.filters.filter((item) => !(item[name])), ...(value !== '' ? [{ [name]: value, labelForField, labelForValue }] : [])];
+    const newFilters = [
+      ...filters.filter(item => !item[name]),
+      ...(value !== "" ? [{ [name]: value, labelForField, labelForValue }] : [])
+    ];
     this.setState({
-      filters: newFilters,
+      filters: newFilters
     });
-    let query = '';
+    let query = "";
     newFilters.forEach(item => {
       const key = Object.keys(item)[0];
       query += `&${key}=${item[key]}`;
@@ -85,16 +93,20 @@ class DataTableToolbar extends React.Component {
     else this.callFilterHandlerDebounce(query);
   };
 
-  callFilterHandler = (query) => {
+  callFilterHandler = query => {
+    const { onFilter } = this.props;
     const { filters } = this.state;
     this.setState({ filtersForChips: filters });
-    this.props.onFilter(query);
+    onFilter(query);
   };
 
-  callFilterHandlerNoDebounce = debounce((query) => { this.callFilterHandler(query); }, 50);
+  callFilterHandlerNoDebounce = debounce(query => {
+    this.callFilterHandler(query);
+  }, 50);
 
-  callFilterHandlerDebounce = debounce((query) => { this.callFilterHandler(query); }, 500);
-
+  callFilterHandlerDebounce = debounce(query => {
+    this.callFilterHandler(query);
+  }, 500);
 
   render() {
     const {
@@ -110,23 +122,39 @@ class DataTableToolbar extends React.Component {
       handleColumnsSelection,
       handleFilterSettings,
       onFilter,
+      filterType
     } = this.props;
     const { showSearchField, anchorElFilter, anchorElColumns } = this.state;
 
     const showTitleOrInfo = () => {
-      return numSelected > 0 ?
-        <Typography color="inherit" variant="subheading">{ numSelected } selected</Typography>
-        : <Typography variant="headline" id="tableTitle">{ title }</Typography>;
+      return numSelected > 0 ? (
+        <Typography color="inherit" variant="subheading">
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography variant="headline" id="tableTitle">
+          {title}
+        </Typography>
+      );
     };
 
     return (
       <React.Fragment>
-        <Toolbar className={classNames(classes.root, { [classes.highlight]: numSelected > 0 })}>
+        <Toolbar
+          className={classNames(classes.root, {
+            [classes.highlight]: numSelected > 0
+          })}
+        >
           <Grid container alignItems="center">
             <Grid item xs={12} sm={6}>
-              {!showSearchField ? showTitleOrInfo()
-                : (<SearchBar hideSearchBar={this.hideSearchBar} onSearch={onSearch} />)
-              }
+              {!showSearchField ? (
+                showTitleOrInfo()
+              ) : (
+                <SearchBar
+                  hideSearchBar={this.hideSearchBar}
+                  onSearch={onSearch}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               {numSelected > 0 ? (
@@ -138,8 +166,7 @@ class DataTableToolbar extends React.Component {
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
-              )
-                :
+              ) : (
                 <ToolbarButtons
                   handleSearchClick={this.handleSearchClick}
                   handleColumnVisibility={this.handleColumnVisibility}
@@ -149,12 +176,11 @@ class DataTableToolbar extends React.Component {
                   onFilter={onFilter}
                   onSearch={onSearch}
                 />
-              }
+              )}
             </Grid>
           </Grid>
         </Toolbar>
-        {
-          (this.state.filters.length) > 0 &&
+        {this.state.filters.length > 0 && (
           <Toolbar>
             <Grid container alignItems="center">
               <Grid>
@@ -165,7 +191,7 @@ class DataTableToolbar extends React.Component {
               </Grid>
             </Grid>
           </Toolbar>
-        }
+        )}
 
         <ColumnChooser
           columns={columns}
@@ -198,8 +224,7 @@ DataTableToolbar.propTypes = {
   extraButtons: PropTypes.func,
   columns: PropTypes.array.isRequired,
   handleColumnsSelection: PropTypes.func.isRequired,
-  onFilter: PropTypes.func,
-
+  onFilter: PropTypes.func
 };
 
 export default withStyles(toolbarStyles)(DataTableToolbar);

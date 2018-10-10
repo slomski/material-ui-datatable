@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
 import LoadingOverlay from "react-loading-overlay";
+import { filter } from "lodash-es";
 import DataTableHead from "./DataTableHead";
 import DataTableToolbar from "./DataTableToolbar";
 
@@ -106,13 +107,14 @@ class DataTable extends React.Component {
       onClickNew,
       onSearch,
       onChangeRowsPerPage,
-      onHandleChangePage,
+      onChangePage,
       onHandleDelete,
       sort,
-      onHandleSortChange,
+      onSortChange,
       actions,
       extraButtons,
       onFilter,
+      filterType,
       elevation = 2,
       showToolbar = true,
       showCheckbox = false
@@ -138,6 +140,7 @@ class DataTable extends React.Component {
             columns={columns}
             handleColumnsSelection={this.handleColumnSelection}
             onFilter={onFilter}
+            filterType={filterType}
           />
         )}
 
@@ -155,7 +158,7 @@ class DataTable extends React.Component {
                 orderDir={sort.dir}
                 orderBy={sort.by}
                 onSelectAllClick={this.handleSelectAllClick}
-                onRequestSort={onHandleSortChange}
+                onRequestSort={onSortChange}
                 rowCount={data.length}
                 columnData={columns}
                 onFilter={onFilter}
@@ -241,7 +244,7 @@ class DataTable extends React.Component {
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
-          onChangePage={onHandleChangePage}
+          onChangePage={onChangePage}
           onChangeRowsPerPage={onChangeRowsPerPage}
           labelRowsPerPage="Page size:"
         />

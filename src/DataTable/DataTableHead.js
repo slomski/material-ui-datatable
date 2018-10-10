@@ -5,6 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";
 import Tooltip from "@material-ui/core/Tooltip";
+import { filter } from "lodash-es";
 
 class DataTableHead extends React.Component {
   state = {};
@@ -22,7 +23,8 @@ class DataTableHead extends React.Component {
       numSelected,
       rowCount,
       columnData,
-      showCheckbox
+      showCheckbox,
+      onFilter
     } = this.props;
     return (
       <TableHead style={{ display: "table-header-group" }}>
@@ -31,9 +33,7 @@ class DataTableHead extends React.Component {
             <TableCell
               padding="none"
               style={{
-                borderBottom: !this.props.onFilter
-                  ? "1px solid rgba(224, 224, 224, 1)"
-                  : 0
+                borderBottom: onFilter ? "1px solid rgba(224, 224, 224, 1)" : 0
               }}
             />
           )}
@@ -43,7 +43,7 @@ class DataTableHead extends React.Component {
                 <TableCell
                   style={{
                     whiteSpace: "nowrap",
-                    borderBottom: !this.props.onFilter
+                    borderBottom: !onFilter
                       ? "1px solid rgba(224, 224, 224, 1)"
                       : 0
                   }}
@@ -79,8 +79,13 @@ class DataTableHead extends React.Component {
   }
 }
 
+DataTableHead.defaultProps = {
+  onFilter: null
+};
+
 DataTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  showCheckbox: PropTypes.bool.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
   orderDir: PropTypes.string.isRequired,
