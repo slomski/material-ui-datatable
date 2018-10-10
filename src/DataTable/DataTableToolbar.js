@@ -125,7 +125,7 @@ class DataTableToolbar extends React.Component {
       filterType
     } = this.props;
     const { showSearchField, anchorElFilter, anchorElColumns } = this.state;
-
+    // console.log(filterType);
     const showTitleOrInfo = () => {
       return numSelected > 0 ? (
         <Typography color="inherit" variant="subheading">

@@ -96,6 +96,10 @@ class DataTable extends React.Component {
     });
   };
 
+  handleLocalFiltering = filters => {
+    console.log(filters);
+  };
+
   isSelected = id => {
     const { selected } = this.state;
     return selected.indexOf(id) !== -1;
@@ -139,7 +143,9 @@ class DataTable extends React.Component {
             onSearchClick={this.handleShowSearchClick}
             columns={columns}
             handleColumnsSelection={this.handleColumnSelection}
-            onFilter={onFilter}
+            onFilter={
+              filterType === "local" ? this.handleLocalFiltering : onFilter
+            }
             filterType={filterType}
           />
         )}
