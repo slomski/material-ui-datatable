@@ -230,7 +230,6 @@ class DataTable extends React.Component {
               />
               <TableBody>
                 {data
-
                   .slice(page.number * page.size, page.size * (page.number + 1))
                   .map(row => {
                     const isSelected = this.isSelected(row.id);

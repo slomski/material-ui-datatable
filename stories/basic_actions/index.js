@@ -5,6 +5,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Datatable from "../../src/DataTable";
 import columns from "../columns_actions";
+import columnsCustomRender from "../columns_actions_custom";
 import data from "../data";
 
 class SimpleTableActions extends React.Component {
@@ -42,7 +43,7 @@ class SimpleTableActions extends React.Component {
   };
 
   render() {
-    const { showToolbar, elevation } = this.props;
+    const { showToolbar, elevation, customRender } = this.props;
     const options = {
       filterType: "local",
       showToolbar,
@@ -54,7 +55,7 @@ class SimpleTableActions extends React.Component {
       <Datatable
         title="Basic Table"
         data={data}
-        columns={columns}
+        columns={customRender ? columnsCustomRender : columns}
         options={options}
       />
     );
@@ -63,12 +64,14 @@ class SimpleTableActions extends React.Component {
 
 SimpleTableActions.defaultProps = {
   showToolbar: true,
-  elevation: 2
+  elevation: 2,
+  customRender: false
 };
 
 SimpleTableActions.propTypes = {
   showToolbar: PropTypes.bool,
-  elevation: PropTypes.number
+  elevation: PropTypes.number,
+  customRender: PropTypes.bool
 };
 
 export default SimpleTableActions;
