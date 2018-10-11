@@ -65,9 +65,11 @@ const ToolbarButtons = props => {
         ))}
       {onClickNew && (
         <Grid item>
-          <Tooltip title={<FormattedMessage id="buttons.add.new" />}>
+          <Tooltip
+            title={<FormattedMessage id="buttons.new" defaultMessage="New" />}
+          >
             <Button size="small" color="primary" onClick={onClickNew}>
-              <FormattedMessage id="buttons.new" />
+              <FormattedMessage id="buttons.new" defaultMessage="New" />
             </Button>
           </Tooltip>
         </Grid>

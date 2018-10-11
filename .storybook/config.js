@@ -9,11 +9,13 @@ addLocaleData(plLocaleData);
 const messages = {
   en: {
     "buttons.columns": "Columns",
-    "buttons.filter": "Filter"
+    "buttons.filter": "Filter",
+    "buttons.new": "New"
   },
   pl: {
     "buttons.columns": "Kolumny",
-    "buttons.filter": "Filtr"
+    "buttons.filter": "Filtr",
+    "buttons.new": "Nowy"
   }
 };
 

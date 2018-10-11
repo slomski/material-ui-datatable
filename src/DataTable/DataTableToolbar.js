@@ -158,7 +158,7 @@ class DataTableToolbar extends React.Component {
             </Grid>
             <Grid item xs={12} sm={6}>
               {numSelected > 0 ? (
-                <Tooltip title={<FormattedMessage id="buttons.delete" />}>
+                <Tooltip title={<FormattedMessage id="buttons.delete" defaultMessage="Delete"/>}>
                   <IconButton
                     onClick={() => handleDelete(selected)}
                     className={classes.deleteButtonColor}
