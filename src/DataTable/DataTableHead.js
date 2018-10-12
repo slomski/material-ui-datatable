@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableCell from "@material-ui/core/TableCell";
 import Tooltip from "@material-ui/core/Tooltip";
-import { filter } from "lodash-es";
+import Checkbox from "@material-ui/core/Checkbox";
 
 class DataTableHead extends React.Component {
   state = {};
@@ -31,11 +31,17 @@ class DataTableHead extends React.Component {
         <TableRow>
           {showCheckbox && (
             <TableCell
-              padding="none"
+              padding="dense"
               style={{
-                borderBottom: onFilter ? "1px solid rgba(224, 224, 224, 1)" : 0
+                borderBottom: "1px solid rgba(224, 224, 224, 1)"
               }}
-            />
+            >
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                onChange={onSelectAllClick}
+              />
+            </TableCell>
           )}
           {columnData.map(column => {
             if (column.visible) {

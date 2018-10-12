@@ -9,12 +9,12 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import debounce from 'lodash-es/debounce';
 
-
 class SearchBar extends React.Component {
   state = {
-    search: '',
+    search: ''
   };
-  onSearch = debounce((searchString) => this.props.onSearch(searchString), 500);
+  // eslint-disable-next-line
+  onSearch = debounce(searchString => this.props.onSearch(searchString), 500);
   handleChange = name => event => {
     const searchString = event.target.value;
     this.setState({ [name]: searchString }, this.onSearch(searchString));
@@ -25,7 +25,6 @@ class SearchBar extends React.Component {
     const { search } = this.state;
     return (
       <React.Fragment>
-
         <TextField
           value={search}
           autoFocus
@@ -34,7 +33,7 @@ class SearchBar extends React.Component {
               <InputAdornment position="start">
                 <Search />
               </InputAdornment>
-            ),
+            )
           }}
           onChange={this.handleChange('search')}
         />
@@ -49,8 +48,8 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-  onSearch: PropTypes.func,
-  hideSearchBar: PropTypes.func,
+  onSearch: PropTypes.func.isRequired,
+  hideSearchBar: PropTypes.func.isRequired
 };
 
 export default SearchBar;
