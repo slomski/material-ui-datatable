@@ -14,7 +14,14 @@ const messages = {
     'buttons.close': 'Close',
     'buttons.search': 'Search',
     'buttons.import': 'Import/Export',
-    'buttons.download': 'Download'
+    'buttons.export': 'Export',
+    'buttons.download': 'Download',
+    'buttons.delete': 'Delete',
+    'buttons.clear': 'Clear',
+    'dt.page.size': 'Page size:',
+    'dt.selected':
+      '{numSelected, number} {numSelected, plural, one {row selected} other {rows selected} }',
+    'dt.page.of': '{from}-{to} of {count}',
   },
   pl: {
     'buttons.columns': 'Kolumny',
@@ -22,9 +29,16 @@ const messages = {
     'buttons.new': 'Nowy',
     'buttons.close': 'Zamknij',
     'buttons.search': 'Szukaj',
-    'buttons.import': 'Import/Export',
-    'buttons.download': 'Pobierz'
-  }
+    'buttons.import': 'Import/Eksport',
+    'buttons.export': 'Eksport',
+    'buttons.download': 'Pobierz',
+    'buttons.delete': 'Usuń',
+    'buttons.clear': 'Wyczyść',
+    'dt.page.size': 'Rozmiar strony:',
+    'dt.selected':
+      '{numSelected, number} {numSelected, plural, one {wiersz zaznaczony} few {wiersze zaznaczone} other {wierszy zaznaczonych} }',
+    'dt.page.of': '{from}-{to} z {count}',
+  },
 };
 
 const getMessages = locale => messages[locale];
@@ -32,7 +46,7 @@ const getMessages = locale => messages[locale];
 setIntlConfig({
   locales: ['en', 'pl'],
   defaultLocale: 'en',
-  getMessages
+  getMessages,
 });
 
 addDecorator(withIntl);
