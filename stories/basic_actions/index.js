@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -7,6 +8,7 @@ import Datatable from "../../src/DataTable";
 import columns from "../columns_actions";
 import columnsCustomRender from "../columns_actions_custom";
 import data from "../data";
+import theme from "../../src/theme";
 
 class SimpleTableActions extends React.Component {
   handleClickNew = () => {
@@ -52,12 +54,14 @@ class SimpleTableActions extends React.Component {
       actions: { renderActions: this.renderActions }
     };
     return (
-      <Datatable
-        title="Basic Table"
-        data={data}
-        columns={customRender ? columnsCustomRender : columns}
-        options={options}
-      />
+      <MuiThemeProvider theme={theme}>
+        <Datatable
+          title="Basic Table"
+          data={data}
+          columns={customRender ? columnsCustomRender : columns}
+          options={options}
+        />
+      </MuiThemeProvider>
     );
   }
 }
