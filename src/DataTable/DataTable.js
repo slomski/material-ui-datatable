@@ -240,15 +240,10 @@ class DataTable extends React.Component {
                         tabIndex={-1}
                         key={row.id}
                         selected={isSelected}
-                        // style={{ minHeight: 48 }}
                       >
                         {showCheckbox && (
-                          <TableCell
-                            padding="dense"
-                            style={{ paddingTop: 0, paddingBottom: 0 }}
-                          >
+                          <TableCell padding="dense">
                             <Checkbox
-                              style={{ height: 32, width: 32 }}
                               checked={isSelected}
                               onClick={event => this.handleClick(event, row.id)}
                             />
@@ -256,7 +251,6 @@ class DataTable extends React.Component {
                         )}
                         {columns.map(col => {
                           if (col.visible) {
-                            /* const padding = col.id === 'id' ? false : col.disablePadding ? 'dense' : 'default'; */
                             return col.id === "actions" ? (
                               <TableCell
                                 key={col.id}

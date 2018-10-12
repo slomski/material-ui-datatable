@@ -9,7 +9,10 @@ storiesOf("Simple table, local data", module)
     <BasicTable showToolbar={false} elevation={0} />
   ))
   .add("with toolbar", () => <BasicTable />)
-  .add("with toolbar, with row actions", () => <BasicTableActions />)
-  .add("with toolbar, with row actions, custom render", () => (
+  .add("with toolbar, row actions", () => <BasicTableActions />)
+  .add("with toolbar, row actions, custom render", () => (
     <BasicTableActions customRender />
+  ))
+  .add("with toolbar, checkboxes, multi row actions", () => (
+    <BasicTable showCheckbox />
   ));
