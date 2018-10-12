@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { FormattedMessage } from 'react-intl';
 import Datatable from '../../src/DataTable';
 import columns from '../columns_actions';
@@ -37,7 +35,7 @@ class SimpleTableActions extends React.Component {
             <EditIcon color="primary" />
           </IconButton>
         </Tooltip>
-        <Tooltip title={<FormattedMessage id="buttons.import" />}>
+        <Tooltip title={<FormattedMessage id="buttons.delete" />}>
           <IconButton
             onClick={() => {
               this.handleDelete(id);
@@ -57,12 +55,14 @@ class SimpleTableActions extends React.Component {
       showToolbar,
       elevation,
       onClickNew: this.handleClickNew,
-      actions: { renderActions: this.renderActions }
+      actions: {
+        renderActions: this.renderActions,
+      },
     };
     return (
       <MuiThemeProvider theme={theme}>
         <Datatable
-          title="Basic Table"
+          title="Local data table"
           data={data}
           columns={customRender ? columnsCustomRender : columns}
           options={options}
@@ -75,13 +75,13 @@ class SimpleTableActions extends React.Component {
 SimpleTableActions.defaultProps = {
   showToolbar: true,
   elevation: 2,
-  customRender: false
+  customRender: false,
 };
 
 SimpleTableActions.propTypes = {
   showToolbar: PropTypes.bool,
   elevation: PropTypes.number,
-  customRender: PropTypes.bool
+  customRender: PropTypes.bool,
 };
 
 export default SimpleTableActions;

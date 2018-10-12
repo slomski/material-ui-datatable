@@ -10,6 +10,6 @@ storiesOf('Table with local data source', module)
   .add('with toolbar, row actions', () => <BasicTableActions />)
   .add('with toolbar, row actions, custom render', () => <BasicTableActions customRender />)
   .add('with toolbar, checkboxes, multi row actions', () => <BasicTable showCheckbox />)
-  .add('with toolbar, checkboxes, multi row actions, search action, custom actions', () => (
+  .add('with toolbar, checkboxes, multi row actions, search action, custom toolbar actions', () => (
     <BasicTable showCheckbox showSearch showExtraActions />
   ));

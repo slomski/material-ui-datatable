@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
-import DownloadIcon from '@material-ui/icons/Save';
+import DownloadIcon from '@material-ui/icons/SaveAlt';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Datatable from '../../src/DataTable';
 import columns from '../columns';
 import data from '../data';
@@ -19,27 +20,62 @@ class SimpleTable extends React.Component {
     console.log(searchString);
   };
 
+  handleExportMulti = ids => {
+    const rows = ids.join(',');
+    alert(`Exporting rows with id: ${rows}`);
+  };
+
+  handleDeleteMulti = ids => {
+    const rows = ids.join(',');
+    alert(`Deleting rows with id: ${rows}`);
+  };
+
   extraButtons = () => {
     return [
       {
         button: (
           <Tooltip title={<FormattedMessage id="buttons.import" />}>
-            <IconButton>
+            <IconButton onClick={() => alert('Custom action Import Export')}>
               <ImportExportIcon />
             </IconButton>
           </Tooltip>
-        )
+        ),
       },
       {
         button: (
           <Tooltip title={<FormattedMessage id="buttons.download" />}>
-            <IconButton>
+            <IconButton onClick={() => alert('Custom action Download')}>
               <DownloadIcon />
             </IconButton>
           </Tooltip>
-        )
-      }
+        ),
+      },
     ];
+  };
+
+  renderMultipleActions = ids => {
+    return (
+      <React.Fragment>
+        <Tooltip title={<FormattedMessage id="buttons.export" />}>
+          <IconButton
+            onClick={() => {
+              this.handleExportMulti(ids);
+            }}
+          >
+            <ImportExportIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={<FormattedMessage id="buttons.delete" />}>
+          <IconButton
+            onClick={() => {
+              this.handleDeleteMulti(ids);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </React.Fragment>
+    );
   };
 
   render() {
@@ -51,11 +87,14 @@ class SimpleTable extends React.Component {
       onClickNew: this.handleClickNew,
       showCheckbox,
       onSearch: showSearch ? this.handleSearch : undefined,
-      extraButtons: showExtraActions ? this.extraButtons : undefined
+      extraButtons: showExtraActions ? this.extraButtons : undefined,
+      actions: {
+        renderMultipleActions: this.renderMultipleActions,
+      },
     };
     return (
       <MuiThemeProvider theme={theme}>
-        <Datatable title="Basic Table" data={data} columns={columns} options={options} />
+        <Datatable title="Local data table" data={data} columns={columns} options={options} />
       </MuiThemeProvider>
     );
   }
@@ -66,7 +105,7 @@ SimpleTable.defaultProps = {
   elevation: 2,
   showCheckbox: false,
   showSearch: false,
-  showExtraActions: false
+  showExtraActions: false,
 };
 
 SimpleTable.propTypes = {
@@ -74,7 +113,7 @@ SimpleTable.propTypes = {
   elevation: PropTypes.number,
   showCheckbox: PropTypes.bool,
   showSearch: PropTypes.bool,
-  showExtraActions: PropTypes.bool
+  showExtraActions: PropTypes.bool,
 };
 
 export default SimpleTable;
