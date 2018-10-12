@@ -8,6 +8,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import LoadingOverlay from 'react-loading-overlay';
 import orderBy from 'lodash-es/orderBy';
 import DataTableHead from './DataTableHead';
@@ -16,16 +17,16 @@ import DataTableToolbar from './DataTableToolbar';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
   },
   tableWrapper: {
-    overflowX: 'auto'
+    overflowX: 'auto',
   },
   flexContainer: {
     width: '100%',
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 class DataTable extends React.Component {
@@ -41,9 +42,13 @@ class DataTable extends React.Component {
       data: data,
       filters: [],
       page: { totalElements: data.length, size: 5, number: 0 },
-      sort: { by: columns[0].id, dir: 'asc' }
+      sort: { by: columns[0].id, dir: 'asc' },
     };
   }
+
+  clearSelected = () => {
+    this.setState({ selected: [] });
+  };
 
   handleColumnSelection = id => {
     const { columns } = this.state;
@@ -89,7 +94,7 @@ class DataTable extends React.Component {
   handleShowSearchClick = () => {
     const { showSearchRow } = this.state;
     this.setState({
-      showSearchRow: !showSearchRow
+      showSearchRow: !showSearchRow,
     });
   };
 
@@ -98,21 +103,21 @@ class DataTable extends React.Component {
     const newData = orderBy(data, by, dir);
     this.setState({
       sort: { by, dir },
-      data: newData
+      data: newData,
     });
   };
 
   handlePageChange = (event, pageNumber) => {
     const { page } = this.state;
     this.setState({
-      page: { ...page, number: pageNumber }
+      page: { ...page, number: pageNumber },
     });
   };
 
   handleRowsPerPageChange = event => {
     const { page } = this.state;
     this.setState({
-      page: { ...page, size: event.target.value }
+      page: { ...page, size: event.target.value },
     });
   };
 
@@ -162,7 +167,7 @@ class DataTable extends React.Component {
       filterType,
       elevation = 2,
       showToolbar = true,
-      showCheckbox = false
+      showCheckbox = false,
     } = options;
     const {
       selected,
@@ -171,7 +176,7 @@ class DataTable extends React.Component {
       // filters,
       // data,
       // originalData,
-      sort
+      sort,
     } = this.state;
 
     const data = this.filterData();
@@ -192,6 +197,8 @@ class DataTable extends React.Component {
             handleColumnsSelection={this.handleColumnSelection}
             onFilter={filterType === 'local' ? this.handleLocalFiltering : onFilter}
             filterType={filterType}
+            actions={actions && actions.renderMultipleActions}
+            clearSelected={this.clearSelected}
           />
         )}
 
@@ -244,18 +251,21 @@ class DataTable extends React.Component {
                               style={{
                                 whiteSpace: 'nowrap',
                                 paddingTop: 0,
-                                paddingBottom: 0
+                                paddingBottom: 0,
                               }}
                             >
                               {actions.renderActions(row.id)}
                             </TableCell>
                           ) : (
                             <TableCell
+                              onClick={
+                                showCheckbox ? event => this.handleClick(event, row.id) : () => null
+                              }
                               key={col.id}
                               style={{
                                 paddingTop: 0,
                                 paddingBottom: 0,
-                                whiteSpace: col.noWrap ? 'nowrap' : 'normal'
+                                whiteSpace: col.noWrap ? 'nowrap' : 'normal',
                               }}
                               numeric={col.numeric}
                             >
@@ -282,15 +292,24 @@ class DataTable extends React.Component {
           count={page.totalElements}
           rowsPerPage={page.size}
           page={page.number}
+          labelDisplayedRows={({ from, to, count }) =>
+            this.props.intl.formatMessage(
+              {
+                id: 'dt.page.of',
+                defaultMessage: `${from}-${to} dupa ${count}`,
+              },
+              { from, to, count }
+            )
+          }
           backIconButtonProps={{
-            'aria-label': 'Previous Page'
+            'aria-label': <FormattedMessage id="dt.page.prev" defaultMessage="Previous page" />,
           }}
           nextIconButtonProps={{
-            'aria-label': 'Next Page'
+            'aria-label': <FormattedMessage id="dt.page.next" defaultMessage="Next page" />,
           }}
           onChangePage={this.handlePageChange}
           onChangeRowsPerPage={this.handleRowsPerPageChange}
-          labelRowsPerPage="Page size:"
+          labelRowsPerPage={<FormattedMessage id="dt.page.size" defaultMessage="Page size:" />}
         />
       </Paper>
     );
@@ -298,7 +317,7 @@ class DataTable extends React.Component {
 }
 
 DataTable.defaultProps = {
-  loading: false
+  loading: false,
 };
 
 DataTable.propTypes = {
@@ -308,7 +327,7 @@ DataTable.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   // page: PropTypes.instanceOf(Object).isRequired,
   options: PropTypes.instanceOf(Object).isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
 };
 
-export default withStyles(styles)(DataTable);
+export default injectIntl(withStyles(styles)(DataTable));
