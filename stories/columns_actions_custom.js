@@ -3,6 +3,14 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import columns from './columns';
 
+const customRender = row => {
+  return (
+    <Tooltip title={row.desert}>
+      <Button color="secondary">row: {row.id}</Button>
+    </Tooltip>
+  );
+};
+
 const columnsCustomRender = [
   ...columns,
   {
@@ -11,11 +19,7 @@ const columnsCustomRender = [
     label: 'Custom column',
     allowSort: false,
     visible: true,
-    render: row => {
-      <Tooltip title={row.desert}>
-        <Button color="secondary">row: {row.id}</Button>
-      </Tooltip>;
-    }
+    render: row => customRender(row)
   },
   {
     id: 'actions',
