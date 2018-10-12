@@ -1,30 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
-import LoadingOverlay from "react-loading-overlay";
-import orderBy from "lodash-es/orderBy";
-import DataTableHead from "./DataTableHead";
-import DataTableToolbar from "./DataTableToolbar";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import LoadingOverlay from 'react-loading-overlay';
+import orderBy from 'lodash-es/orderBy';
+import DataTableHead from './DataTableHead';
+import DataTableToolbar from './DataTableToolbar';
 
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing.unit * 3
   },
   tableWrapper: {
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   flexContainer: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center"
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center'
   }
 });
 
@@ -41,7 +41,7 @@ class DataTable extends React.Component {
       data: data,
       filters: [],
       page: { totalElements: data.length, size: 5, number: 0 },
-      sort: { by: columns[0].id, dir: "asc" }
+      sort: { by: columns[0].id, dir: 'asc' }
     };
   }
 
@@ -63,13 +63,6 @@ class DataTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    // const { selected } = this.state;
-    // const { options } = this.props;
-    // let newSelected = [];
-    // if (selected.length === 0) newSelected.push(id);
-    // else if (selected[0] === id) newSelected = [];
-    // else if (selected[0] !== id) newSelected[0] = id;
-
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -139,8 +132,8 @@ class DataTable extends React.Component {
     });
     const filteredData = data.filter(item => {
       for (let key in filtersObject) {
-        const haystack = ("" + item[key]).toLowerCase();
-        const needle = "" + filtersObject[key].toLowerCase();
+        const haystack = ('' + item[key]).toLowerCase();
+        const needle = '' + filtersObject[key].toLowerCase();
         if (item[key] !== undefined && haystack.includes(needle)) return true;
       }
       return false;
@@ -158,11 +151,11 @@ class DataTable extends React.Component {
     const {
       onClickNew,
       onSearch,
-      onChangeRowsPerPage,
-      onChangePage,
-      onHandleDelete,
+      // onChangeRowsPerPage,
+      // onChangePage,
+      // onHandleDelete,
       // sort,
-      onSortChange,
+      // onSortChange,
       actions,
       extraButtons,
       onFilter,
@@ -175,15 +168,11 @@ class DataTable extends React.Component {
       selected,
       columns,
       page,
-      filters,
+      // filters,
       // data,
       // originalData,
       sort
     } = this.state;
-    // const emptyRows = page.size - Math.min(page.size, data.length);
-
-    // console.log(this.state);
-    // console.log(this.props);
 
     const data = this.filterData();
 
@@ -201,9 +190,7 @@ class DataTable extends React.Component {
             onSearchClick={this.handleShowSearchClick}
             columns={columns}
             handleColumnsSelection={this.handleColumnSelection}
-            onFilter={
-              filterType === "local" ? this.handleLocalFiltering : onFilter
-            }
+            onFilter={filterType === 'local' ? this.handleLocalFiltering : onFilter}
             filterType={filterType}
           />
         )}
@@ -213,7 +200,7 @@ class DataTable extends React.Component {
           spinner
           background="rgba(250,250,250)"
           color="#7c1f8c"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           <div className={classes.tableWrapper}>
             <Table>
@@ -229,65 +216,63 @@ class DataTable extends React.Component {
                 showCheckbox={showCheckbox}
               />
               <TableBody>
-                {data
-                  .slice(page.number * page.size, page.size * (page.number + 1))
-                  .map(row => {
-                    const isSelected = this.isSelected(row.id);
-                    return (
-                      <TableRow
-                        hover
-                        aria-checked={isSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isSelected}
-                      >
-                        {showCheckbox && (
-                          <TableCell padding="dense">
-                            <Checkbox
-                              checked={isSelected}
-                              onClick={event => this.handleClick(event, row.id)}
-                            />
-                          </TableCell>
-                        )}
-                        {columns.map(col => {
-                          if (col.visible) {
-                            return col.id === "actions" ? (
-                              <TableCell
-                                key={col.id}
-                                padding="dense"
-                                numeric={col.numeric}
-                                style={{
-                                  whiteSpace: "nowrap",
-                                  paddingTop: 0,
-                                  paddingBottom: 0
-                                }}
-                              >
-                                {actions.renderActions(row.id)}
-                              </TableCell>
-                            ) : (
-                              <TableCell
-                                key={col.id}
-                                style={{
-                                  paddingTop: 0,
-                                  paddingBottom: 0,
-                                  whiteSpace: col.noWrap ? "nowrap" : "normal"
-                                }}
-                                numeric={col.numeric}
-                              >
-                                {// eslint-disable-next-line
-                                col.render
-                                  ? col.render(row)
-                                  : typeof row[col.id] === "boolean"
-                                    ? `${row[col.id]}`
-                                    : row[col.id]}
-                              </TableCell>
-                            );
-                          }
-                          return <React.Fragment key={col.id} />;
-                        })}
-                      </TableRow>
-                    );
-                  })}
+                {data.slice(page.number * page.size, page.size * (page.number + 1)).map(row => {
+                  const isSelected = this.isSelected(row.id);
+                  return (
+                    <TableRow
+                      hover
+                      aria-checked={isSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isSelected}
+                    >
+                      {showCheckbox && (
+                        <TableCell padding="dense">
+                          <Checkbox
+                            checked={isSelected}
+                            onClick={event => this.handleClick(event, row.id)}
+                          />
+                        </TableCell>
+                      )}
+                      {columns.map(col => {
+                        if (col.visible) {
+                          return col.id === 'actions' ? (
+                            <TableCell
+                              key={col.id}
+                              padding="dense"
+                              numeric={col.numeric}
+                              style={{
+                                whiteSpace: 'nowrap',
+                                paddingTop: 0,
+                                paddingBottom: 0
+                              }}
+                            >
+                              {actions.renderActions(row.id)}
+                            </TableCell>
+                          ) : (
+                            <TableCell
+                              key={col.id}
+                              style={{
+                                paddingTop: 0,
+                                paddingBottom: 0,
+                                whiteSpace: col.noWrap ? 'nowrap' : 'normal'
+                              }}
+                              numeric={col.numeric}
+                            >
+                              {// eslint-disable-next-line
+                              col.render
+                                ? col.render(row)
+                                : typeof row[col.id] === 'boolean'
+                                  ? `${row[col.id]}`
+                                  : row[col.id]}
+                            </TableCell>
+                          );
+                        }
+                        return <React.Fragment key={col.id} />;
+                      })}
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -298,10 +283,10 @@ class DataTable extends React.Component {
           rowsPerPage={page.size}
           page={page.number}
           backIconButtonProps={{
-            "aria-label": "Previous Page"
+            'aria-label': 'Previous Page'
           }}
           nextIconButtonProps={{
-            "aria-label": "Next Page"
+            'aria-label': 'Next Page'
           }}
           onChangePage={this.handlePageChange}
           onChangeRowsPerPage={this.handleRowsPerPageChange}

@@ -1,28 +1,26 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
-import columns from "./columns";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import columns from './columns';
 
 const columnsCustomRender = [
   ...columns,
   {
-    id: "anyid",
+    id: 'anyid',
     numeric: false,
-    label: "Custom column",
+    label: 'Custom column',
     allowSort: false,
     visible: true,
     render: row => {
-      return (
-        <Tooltip title={row.desert}>
-          <Button color="secondary">row: {row.id}</Button>
-        </Tooltip>
-      );
+      <Tooltip title={row.desert}>
+        <Button color="secondary">row: {row.id}</Button>
+      </Tooltip>;
     }
   },
   {
-    id: "actions",
+    id: 'actions',
     numeric: true,
-    label: "Actions",
+    label: 'Actions',
     allowSort: false,
     visible: true
   }

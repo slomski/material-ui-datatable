@@ -1,12 +1,13 @@
-import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Search from "@material-ui/icons/Search";
-import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import FilterIcon from "@material-ui/icons/FilterList";
-import AddNewIcon from "@material-ui/icons/AddBox";
-import { FormattedMessage } from "react-intl";
-import Grid from "@material-ui/core/Grid";
+import React from 'react';
+import PropTypes from 'prop-types';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import Search from '@material-ui/icons/Search';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+import FilterIcon from '@material-ui/icons/FilterList';
+import AddNewIcon from '@material-ui/icons/AddBox';
+import { FormattedMessage } from 'react-intl';
+import Grid from '@material-ui/core/Grid';
 
 const ToolbarButtons = props => {
   const {
@@ -47,15 +48,14 @@ const ToolbarButtons = props => {
       </Grid>
       {extraButtons &&
         extraButtons().map((e, idx) => (
+          // eslint-disable-next-line
           <Grid key={idx} item>
             {e.button}
           </Grid>
         ))}
       {onClickNew && (
         <Grid item>
-          <Tooltip
-            title={<FormattedMessage id="buttons.new" defaultMessage="New" />}
-          >
+          <Tooltip title={<FormattedMessage id="buttons.new" defaultMessage="New" />}>
             <IconButton size="small" onClick={onClickNew}>
               <AddNewIcon color="primary" />
             </IconButton>
@@ -64,6 +64,26 @@ const ToolbarButtons = props => {
       )}
     </Grid>
   );
+};
+
+ToolbarButtons.defaultProps = {
+  handleSearchClick: undefined,
+  handleColumnVisibility: undefined,
+  handleFilterVisibility: undefined,
+  extraButtons: undefined,
+  onClickNew: undefined,
+  onFilter: undefined,
+  onSearch: undefined
+};
+
+ToolbarButtons.propTypes = {
+  handleSearchClick: PropTypes.func,
+  handleColumnVisibility: PropTypes.func,
+  handleFilterVisibility: PropTypes.func,
+  extraButtons: PropTypes.func,
+  onClickNew: PropTypes.func,
+  onFilter: PropTypes.func,
+  onSearch: PropTypes.func
 };
 
 export default ToolbarButtons;
