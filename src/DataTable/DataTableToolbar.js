@@ -20,31 +20,31 @@ import RenderFilterChips from './RenderFilterChips';
 const toolbarStyles = theme => ({
   root: {
     padding: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   spacer: {
-    flex: 1
+    flex: 1,
   },
   title: {
-    flex: '0 0 auto'
+    flex: '0 0 auto',
   },
   highlight:
     theme.palette.type === 'light'
       ? {
           color: theme.palette.grey[200],
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
         }
       : {
           color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark
-        }
+          backgroundColor: theme.palette.secondary.dark,
+        },
 });
 
 class DataTableToolbar extends React.Component {
   state = {
     showSearchField: false,
     filters: [],
-    filtersForChips: []
+    filtersForChips: [],
   };
 
   callFilterHandlerNoDebounce = debounce(query => {
@@ -57,12 +57,12 @@ class DataTableToolbar extends React.Component {
 
   handleSearchClick = () => {
     this.setState({
-      showSearchField: true
+      showSearchField: true,
     });
   };
   hideSearchBar = () => {
     this.setState({
-      showSearchField: false
+      showSearchField: false,
     });
   };
   handleColumnVisibility = event => {
@@ -81,7 +81,7 @@ class DataTableToolbar extends React.Component {
     this.setState(
       {
         filters: [],
-        filtersForChips: []
+        filtersForChips: [],
       },
       onFilter('')
     );
@@ -92,10 +92,10 @@ class DataTableToolbar extends React.Component {
     const { value, name, labelForField, labelForValue } = filter;
     const newFilters = [
       ...filters.filter(item => !item[name]),
-      ...(value !== '' ? [{ [name]: value, labelForField, labelForValue }] : [])
+      ...(value !== '' ? [{ [name]: value, labelForField, labelForValue }] : []),
     ];
     this.setState({
-      filters: newFilters
+      filters: newFilters,
     });
     let query = '';
     newFilters.forEach(item => {
@@ -121,25 +121,33 @@ class DataTableToolbar extends React.Component {
       onClickNew,
       onSearch,
       selected,
-      handleDelete,
+      // handleDelete,
       extraButtons,
       columns,
       handleColumnsSelection,
       // handleFilterSettings,
-      onFilter
+      onFilter,
       // filterType
+      actions,
+      clearSelected,
     } = this.props;
     const {
       showSearchField,
       anchorElFilter,
       anchorElColumns,
       filters,
-      filtersForChips
+      filtersForChips,
     } = this.state;
     // console.log(filterType);
     const showTitleOrInfo = () => {
       return numSelected > 0 ? (
-        <Typography variant="subheading">{numSelected} selected</Typography>
+        <Typography variant="subheading">
+          <FormattedMessage
+            id="dt.selected"
+            defaultMessage={`{numSelected, number} {numSelected, plural, one {row selected} other {rows selected} }`}
+            values={{ numSelected }}
+          />
+        </Typography>
       ) : (
         <Typography variant="headline">{title}</Typography>
       );
@@ -149,7 +157,7 @@ class DataTableToolbar extends React.Component {
       <React.Fragment>
         <Toolbar
           className={classNames(classes.root, {
-            [classes.highlight]: numSelected > 0
+            [classes.highlight]: numSelected > 0,
           })}
         >
           <div className="title">
@@ -162,14 +170,7 @@ class DataTableToolbar extends React.Component {
           <div className={classes.spacer} />
           <div>
             {numSelected > 0 ? (
-              <Tooltip title={<FormattedMessage id="buttons.delete" defaultMessage="Delete" />}>
-                <IconButton
-                  onClick={() => handleDelete(selected)}
-                  className={classes.deleteButtonColor}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
+              actions(selected, clearSelected)
             ) : (
               <ToolbarButtons
                 handleSearchClick={this.handleSearchClick}
@@ -220,10 +221,10 @@ DataTableToolbar.defaultProps = {
   onClickNew: undefined,
   onSearch: undefined,
   selected: [],
-  handleDelete: undefined,
+  actions: undefined,
   extraButtons: undefined,
   onFilter: undefined,
-  filterType: 'local'
+  filterType: 'local',
 };
 
 DataTableToolbar.propTypes = {
@@ -233,12 +234,13 @@ DataTableToolbar.propTypes = {
   onClickNew: PropTypes.func,
   onSearch: PropTypes.func,
   selected: PropTypes.instanceOf(Array),
-  handleDelete: PropTypes.func,
+  actions: PropTypes.func,
+  clearSelected: PropTypes.func.isRequired,
   extraButtons: PropTypes.func,
   columns: PropTypes.instanceOf(Array).isRequired,
   handleColumnsSelection: PropTypes.func.isRequired,
   onFilter: PropTypes.func,
-  filterType: PropTypes.string
+  filterType: PropTypes.string,
 };
 
 export default withStyles(toolbarStyles)(DataTableToolbar);
