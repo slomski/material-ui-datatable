@@ -8,6 +8,7 @@ import Popover from '@material-ui/core/Popover';
 import { FormattedMessage } from 'react-intl';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 import Divider from '@material-ui/core/Divider';
@@ -18,15 +19,15 @@ const styles = () => ({
   popoverPaper: {
     width: 250,
     maxHeight: 600,
-    flexGrow: 1
+    flexGrow: 1,
   },
   appbar: {
     height: 48,
-    minHeight: 48
+    minHeight: 48,
   },
   flex: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 const ColumnChooser = props => {
@@ -38,11 +39,11 @@ const ColumnChooser = props => {
       onClose={handleClose}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'center'
+        horizontal: 'center',
       }}
       transformOrigin={{
         vertical: 'top',
-        horizontal: 'center'
+        horizontal: 'center',
       }}
     >
       <Paper className={classes.popoverPaper} elevation={0}>
@@ -51,9 +52,11 @@ const ColumnChooser = props => {
             <Typography className={classes.flex} variant="title" style={{ fontSize: '1em' }}>
               <FormattedMessage id="buttons.columns" />
             </Typography>
-            <IconButton onClick={handleClose}>
-              <Close />
-            </IconButton>
+            <Tooltip title={<FormattedMessage id="buttons.close" defaultMessage="Close" />}>
+              <IconButton onClick={handleClose}>
+                <Close />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
         <Divider />
@@ -74,7 +77,7 @@ const ColumnChooser = props => {
 };
 
 ColumnChooser.defaultProps = {
-  anchorEl: null
+  anchorEl: null,
 };
 
 ColumnChooser.propTypes = {
@@ -82,7 +85,7 @@ ColumnChooser.propTypes = {
   handleClose: PropTypes.func.isRequired,
   handleColumnsSelection: PropTypes.func.isRequired,
   anchorEl: PropTypes.instanceOf(Object),
-  classes: PropTypes.instanceOf(Object).isRequired
+  classes: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default withStyles(styles)(ColumnChooser);
